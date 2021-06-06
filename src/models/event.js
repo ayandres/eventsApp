@@ -14,7 +14,7 @@ const eventSchema = new Schema({
   category: {
     type: String,
     enum: {
-      values: ['business', 'casual', 'party', 'general'],
+      values: ['business', 'party', 'general'],
       message: '{VALUE} is not supported',
     },
     required: true,
