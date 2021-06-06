@@ -1,24 +1,37 @@
-const mongoose = require('mongoose')
-const Schema = mongoose.Schema
+const mongoose = require('mongoose');
 
-const eventSchema = new Schema({
-  title: {
-    type: String,
-    required: true,
-  },
-  cost: {
-    type: Number,
-    min: [1, 'Must be at least 1, received {VALUE}'],
-    required: true,
-  },
-  category: {
-    type: String,
-    enum: {
-      values: ['business', 'party', 'general'],
-      message: '{VALUE} is not supported',
-    },
-    required: true,
-  },
-})
+const eventSchema = new mongoose.Schema({
+	title: {
+		type: String,
+		required: [true, 'title required'],
+		minLength: [2, '2 char minimum'],
+		trim: true,
+	},
+	cost: {
+		type: Number,
+		min: [1, 'Integer must be greater than zero'],
+		trim: true,
+	},
+	category: {
+		type: String,
+		required: [
+			true,
+			'must have one of the following, business, casual or general',
+		],
+		enum: ['business', 'casual', 'other'],
+		lowercase: true,
+		trim: true,
+	},
+	image: {
+		type: String,
+		trim: true,
+	},
+	createdAt: {
+		type: Date,
+		default: Date.now(),
+	},
+});
 
-module.exports = mongoose.model('event', eventSchema)
+const Event = mongoose.model('Event', eventSchema);
+
+module.exports = Event;

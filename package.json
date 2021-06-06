@@ -13,8 +13,8 @@
     "nodemon": "^2.0.7",
     "require": "^0.4.4",
     "start": "^5.1.0",
-    "update": "^0.4.2",
-    "yargs-parser": "^2.4.1"
+    "update": "^0.7.4",
+    "yargs-parser": "^20.2.7"
   },
   "devDependencies": {
     "morgan": "^1.10.0"

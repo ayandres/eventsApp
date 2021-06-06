@@ -4,7 +4,6 @@ const secret = 'thisisareallypowerfulsecret';
 
 exports.authenticateUser = async (req, res, next) => {
 	try {
-
 		if (!req.headers.authorization) {
 			return res.status(401).json({
 				status: 'Unauthorized',
