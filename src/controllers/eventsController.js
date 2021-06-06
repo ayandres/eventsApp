@@ -9,7 +9,7 @@ exports.getEvents = async (req, res) => {
 		res.send(500).json({ message: err.message });
 	}
 };
-exports.image = async (category) => {
+exports.genImage = async (category) => {
 	let obj = await axios.get(
 		`https://source.unsplash.com/featured/?${category}`
 	);
@@ -19,9 +19,9 @@ exports.image = async (category) => {
 exports.createEvent = async (req, res) => {
 	try {
 		const { title, cost, category } = req.body;
-		const imageUrl = await this.image(category);
+		const image = await genImage(category);
 
-		let newEvent = await Event.create({ title, cost, category });
+		let newEvent = await Event.create({ title, cost, category, image });
 		res.json({ message: `Event successfully created!`, newEvent });
 	} catch (err) {
 		res.status(500).json({ message: err.message });
