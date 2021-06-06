@@ -3,35 +3,29 @@ const mongoose = require('mongoose');
 const eventSchema = new mongoose.Schema({
 	title: {
 		type: String,
-		required: [true, 'title required'],
-		minLength: [2, '2 char minimum'],
-		trim: true,
+		required: true,
 	},
 	cost: {
 		type: Number,
 		min: [1, 'Integer must be greater than zero'],
-		trim: true,
+		required: true,
 	},
 	category: {
 		type: String,
 		required: [
 			true,
-			'must have one of the following, business, casual or general',
+			'must have one of the following, business, casual , party or general',
 		],
-		enum: ['business', 'casual', 'other'],
+		enum: ['business', 'casual', 'party', 'other'],
 		lowercase: true,
-		trim: true,
+		required: true,
 	},
 	image: {
 		type: String,
-		trim: true,
-	},
-	createdAt: {
-		type: Date,
-		default: Date.now(),
+		required: true,
 	},
 });
 
 const event = mongoose.model('event', eventSchema);
 
-module.exports = Event;
+module.exports = event;

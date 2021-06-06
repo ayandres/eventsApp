@@ -1,5 +1,5 @@
-const event = require('../models/event');
 const axios = require('axios');
+const event = require('../models/event');
 
 exports.getEvents = async (req, res) => {
 	try {
@@ -9,17 +9,17 @@ exports.getEvents = async (req, res) => {
 		res.send(500).json({ message: err.message });
 	}
 };
+exports.image = async (category) => {
+	let obj = await axios.get(
+		`https://source.unsplash.com/featured/?${category}`
+	);
+	return obj.request.res.responseUrl;
+};
 
 exports.createEvent = async (req, res) => {
 	try {
-		const imageCategory = req.body.category;
-
-		const getImage = async () => {
-			const response = await axios.get(
-				`https://source.unsplash.com/featured/?${imageCategory}`
-			);
-			return response.request.res.responseUrl;
-		};
+		const { title, cost, category } = req.body;
+		const imageUrl = await this.image(category);
 
 		let newEvent = await Event.create({ title, cost, category });
 		res.json({ message: `Event successfully created!`, newEvent });
@@ -52,8 +52,8 @@ exports.updateEvent = async (req, res) => {
 exports.deleteEvent = async (req, res) => {
 	try {
 		const document = await event.findByIdAndDelete(req.params.id);
-		res.send(`Event: '${document.title}' removed successfully!`);
+		res.send(`Event: '${document.title}' removed successfully`);
 	} catch (err) {
-		res.send('Error');
+		res.send('An error occurred.');
 	}
 };
