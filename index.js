@@ -3,7 +3,6 @@ const morgan = require('morgan');
 const app = express();
 require('dotenv/config');
 
-
 const eventsRouter = require('./src/routes/eventsRouter');
 const indexRouter = require('./src/routes/indexRouter');
 const authRouter = require('./src/routes/authRouter');

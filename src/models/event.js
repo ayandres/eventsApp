@@ -7,25 +7,21 @@ const eventSchema = new mongoose.Schema({
 	},
 	cost: {
 		type: Number,
-		min: [1, 'Integer must be greater than zero'],
 		required: true,
+		min: [1, 'Must be greater than 0'],
 	},
 	category: {
 		type: String,
-		required: [
-			true,
-			'must have one of the following, business, casual , party or general',
-		],
-		enum: ['business', 'casual', 'party', 'other'],
-		lowercase: true,
 		required: true,
+		enum: {
+			values: ['business', 'casual', 'party', 'general'],
+			message: '{VALUE} is not supported as a category value',
+		},
 	},
 	image: {
 		type: String,
-		required: true,
 	},
 });
 
 const event = mongoose.model('event', eventSchema);
-
 module.exports = event;

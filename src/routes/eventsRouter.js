@@ -6,7 +6,7 @@ const { authenticateUser, checkIfAdmin } = require('../middleware/auth');
 
 router
 	.get('/', eventController.getEvents)
-	.post(authenticateUser, eventController.createEvent);
+	.put(authenticateUser, eventController.createEvent);
 
 router
 	.route('/:id')

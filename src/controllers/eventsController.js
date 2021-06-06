@@ -1,6 +1,5 @@
 const axios = require('axios');
 const event = require('../models/event');
-
 exports.getEvents = async (req, res) => {
 	try {
 		let documents = await event.find();
@@ -9,23 +8,35 @@ exports.getEvents = async (req, res) => {
 		res.send(500).json({ message: err.message });
 	}
 };
-exports.genImage = async (category) => {
-	let obj = await axios.get(
-		`https://source.unsplash.com/featured/?${category}`
-	);
-	return obj.request.res.responseUrl;
-};
-
-exports.createEvent = async (req, res) => {
-	try {
-		const { title, cost, category } = req.body;
-		const image = await genImage(category);
-
-		let newEvent = await Event.create({ title, cost, category, image });
-		res.json({ message: `Event successfully created!`, newEvent });
-	} catch (err) {
-		res.status(500).json({ message: err.message });
-	}
+exports.createEvent = function (req, res) {
+	let query = req.body.category;
+	let api = 'https://imagegen.herokuapp.com/?category=';
+	let callUrl = api + query;
+	axios
+		.get(callUrl)
+		.then((response) => {
+			req.body.image = response.data.image;
+			event.create(
+				{
+					title: req.body.title,
+					cost: req.body.cost,
+					category: req.body.category,
+					image: req.body.image,
+				},
+				(err, newEvent) => {
+					if (err) {
+						return res.status(500).json({ message: err });
+					} else {
+						return res
+							.status(200)
+							.json({ message: 'New event created!', newEvent });
+					}
+				}
+			);
+		})
+		.catch((error) => {
+			console.log(error);
+		});
 };
 
 exports.findEvent = async (req, res) => {
