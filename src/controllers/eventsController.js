@@ -52,8 +52,8 @@ exports.updateEvent = async (req, res) => {
 exports.deleteEvent = async (req, res) => {
 	try {
 		const document = await event.findByIdAndDelete(req.params.id);
-		res.send(`Event: '${document.title}' removed successfully`);
+		res.send(`Event: '${document.title}' removed successfully!`);
 	} catch (err) {
-		res.send('An error occurred.');
+		res.send('Error');
 	}
 };
